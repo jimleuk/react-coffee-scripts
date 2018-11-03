@@ -16,13 +16,11 @@
     "lib",
     "scripts",
     "template",
-    "template-typescript",
     "utils"
   ],
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
   },
-  "types": "./lib/react-app.d.ts",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@svgr/webpack": "2.4.1",
@@ -46,7 +44,6 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
-    "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
