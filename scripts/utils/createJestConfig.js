@@ -47,7 +47,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
     testEnvironment: 'jsdom',
     testURL: 'http://localhost',
     transform: {
-      '^.+\\.(js|jsx|coffee|cs|csx|litcoffee)$': isEjecting
+      '^.+\\.(coffee|cs|csx|litcoffee)$': resolve('config/jest/coffeeTransform'),
+      '^.+\\.(js|jsx)$': isEjecting
         ? '<rootDir>/node_modules/babel-jest'
         : resolve('config/jest/babelTransform.js'),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),

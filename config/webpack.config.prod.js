@@ -8,10 +8,8 @@
 // @remove-on-eject-end
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -54,10 +52,6 @@ const env = getClientEnvironment(publicUrl);
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
 }
-
-// Check if CoffeeScript is setup
-const appPackage = require(paths.appPackageJson)
-const useCoffeeScript = appPackage.dependencies['coffeescript'] != null;
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -228,7 +222,13 @@ module.exports = {
     // for React Native Web.
     extensions: paths.moduleFileExtensions
       .map(ext => `.${ext}`)
-      .filter(ext => useCoffeeScript || !ext.includes('coffee')),
+      .filter(ext => (
+        !ext.includes('coffee') &&
+        !ext.includes('cs') &&
+        !ext.includes('cjsx') &&
+        !ext.includes('litcoffee')
+      )
+    ),
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -285,6 +285,13 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
+      // Process application CoffeeScript.
+      {
+        test: /\.(coffee|cs|cjsx|litcoffee)$/,
+        enforce: 'pre',
+        include: paths.appSrc,
+        loader: require.resolve('coffee-loader'),
+      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -299,11 +306,6 @@ module.exports = {
               limit: 10000,
               name: 'static/media/[name].[hash:8].[ext]',
             },
-          },
-          // Process application CoffeeScript
-          {
-            test: /\.(coffee|cs|cjsx|litcoffee)$/,
-            loader: require.resolve('coffee-loader'),
           },
           // Process application JS with Babel.
           // The preset includes JSX, Flow, CoffeeScript and some ESnext features.

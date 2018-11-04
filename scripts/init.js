@@ -90,14 +90,12 @@ module.exports = function(
   // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
 
-  const useCoffeeScript = appPackage.dependencies['coffeescript'] != null;
-
   // Setup the script rules
   appPackage.scripts = {
-    start: 'react-scripts start',
-    build: 'react-scripts build',
-    test: 'react-scripts test',
-    eject: 'react-scripts eject',
+    start: 'react-coffee-scripts start',
+    build: 'react-coffee-scripts build',
+    test: 'react-coffee-scripts test',
+    eject: 'react-coffee-scripts eject',
   };
 
   // Setup the eslint config
@@ -124,7 +122,7 @@ module.exports = function(
   // Copy the files for the user
   const templatePath = template
     ? path.resolve(originalDirectory, template)
-    : path.join(ownPath, useCoffeeScript ? 'template-coffeescript' : 'template');
+    : path.join(ownPath, 'template');
   if (fs.existsSync(templatePath)) {
     fs.copySync(templatePath, appPath);
   } else {
@@ -163,7 +161,6 @@ module.exports = function(
     command = 'npm';
     args = ['install', '--save', verbose && '--verbose'].filter(e => e);
   }
-  args.push('react', 'react-dom');
 
   // Install additional template dependencies, if present
   const templateDependenciesPath = path.join(
@@ -186,15 +183,26 @@ module.exports = function(
   if (!isReactInstalled(appPackage) || template) {
     console.log(`Installing react and react-dom using ${command}...`);
     console.log();
-
-    const proc = spawn.sync(command, args, { stdio: 'inherit' });
+    
+    const procArgs = args.concat('react', 'react-dom');
+    const proc = spawn.sync(command, procArgs, { stdio: 'inherit' });
     if (proc.status !== 0) {
-      console.error(`\`${command} ${args.join(' ')}\` failed`);
+      console.error(`\`${command} ${procArgs.join(' ')}\` failed`);
       return;
     }
   }
 
   // TODO: verifyCoffeeScriptSetup()
+  // Install coffeescript
+  {
+    console.log(`Installing coffeescript using ${command}...`);
+    const procArgs = args.concat('coffeescript');
+    const proc = spawn.sync(command, procArgs, { stdio: 'inherit' });
+    if (proc.status !== 0) {
+      console.error(`\`${command} ${procArgs.join(' ')}\` failed`);
+      return;
+    }
+  }
 
   if (tryGitInit(appPath)) {
     console.log();
