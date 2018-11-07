@@ -1,4 +1,10 @@
 
+0.2.0 / 2018-11-07
+==================
+
+  * Removes unused tests in /fixtures directory (#4)
+  * updates the default template page to new "coffeescript" based design (#1)
+
 0.1.0 / 2018-11-05
 ==================
 

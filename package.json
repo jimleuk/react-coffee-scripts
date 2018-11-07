@@ -1,6 +1,6 @@
 {
   "name": "react-coffee-scripts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CoffeeScript configuration and scripts for Create React App.",
   "repository": "jimleuk/react-coffee-scripts",
   "license": "MIT",

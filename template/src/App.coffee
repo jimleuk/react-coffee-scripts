@@ -10,14 +10,25 @@ class App extends Component
         <p>
           Edit <code>src/App.coffee</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="App-links">
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+
+          <a
+            className="App-link"
+            href="https://coffeescript.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn CoffeeScript
+          </a>
+        </div>
       </header>
     </div>
 
